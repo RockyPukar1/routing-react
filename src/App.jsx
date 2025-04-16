@@ -1,10 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
-  let [count, setCount] = useState(1);
+  const [count, setCount] = useState(0);
+  const [products, setProducts] = useState([]);
 
-  console.log(count);
+  useEffect(() => {
+    fetch("https://dummyjson.com/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data.products));
+  }, []);
 
+  console.log(products)
+  
   return (
     <div>
       <p>Count: {count}</p>
