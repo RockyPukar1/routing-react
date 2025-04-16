@@ -13,21 +13,23 @@ function App() {
     getAllUsers();
   }, []);
 
+  console.log(users);
+
+  if (users.length == 0) {
+    return "Loading";
+  }
+
   return (
     <div>
-      {users.length != 0 ? (
-        users.map((user) => (
+      {users.map((user) => (
+        <div key={user.id}>
           <div>
-            <div>
-              Full Name: {user.firstName} {user.lastName}
-            </div>
-            <div>Age: {user.age}</div>
-            <div>Country: {user.address.country}</div>
+            Full Name: {user.firstName} {user.lastName}
           </div>
-        ))
-      ) : (
-        <p>Loading</p>
-      )}
+          <div>Age: {user.age}</div>
+          <div>Country: {user.address.country}</div>
+        </div>
+      ))}
     </div>
   );
 }
