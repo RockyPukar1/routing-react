@@ -1,35 +1,19 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function App() {
-  const [users, setUsers] = useState([]);
+  let [count, setCount] = useState(1);
 
-  useEffect(() => {
-    function getAllUsers() {
-      fetch("https://dummyjson.com/users")
-        .then((res) => res.json())
-        .then((data) => setUsers(data?.users));
-    }
-
-    getAllUsers();
-  }, []);
-
-  console.log(users);
-
-  if (users.length == 0) {
-    return "Loading";
-  }
+  console.log(count);
 
   return (
     <div>
-      {users.map((user) => (
-        <div>
-          <div>
-            Full Name: {user.firstName} {user.lastName}
-          </div>
-          <div>Age: {user.age}</div>
-          <div>Country: {user.address.country}</div>
-        </div>
-      ))}
+      <p>Count: {count}</p>
+      <button
+        onClick={() => setCount(count + 1)}
+        className="bg-black text-white"
+      >
+        Click me
+      </button>
     </div>
   );
 }
