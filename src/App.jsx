@@ -1,8 +1,10 @@
 import { useState } from "react";
 
 function App() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+  });
 
   return (
     <div className="flex justify-center">
@@ -10,7 +12,7 @@ function App() {
         className="w-72 flex flex-col gap-2"
         onSubmit={(event) => {
           event.preventDefault();
-          console.log(name, email);
+          console.log(formData);
         }}
       >
         <div>
@@ -18,9 +20,11 @@ function App() {
           <input
             type="text"
             className="outline border-0"
-            value={name}
+            value={formData.name}
             placeholder="John Doe"
-            onChange={(event) => setName(event.target.value)}
+            onChange={(event) =>
+              setFormData((prev) => ({ ...prev, name: event.target.value }))
+            }
           />
         </div>
         <div>
@@ -28,14 +32,16 @@ function App() {
           <input
             type="email"
             className="outline border-0"
-            value={email}
+            value={formData.email}
             placeholder="john.doe@gmail.com"
-            onChange={(event) => setEmail(event.target.value)}
+            onChange={(event) =>
+              setFormData((prev) => ({ ...prev, email: event.target.value }))
+            }
           />
         </div>
         <button className="border border-black p-2">Submit</button>
-        <div>My Name: {name}</div>
-        <div>My Email: {email}</div>
+        <div>My Name: {formData.name}</div>
+        <div>My Email: {formData.email}</div>
       </form>
     </div>
   );
