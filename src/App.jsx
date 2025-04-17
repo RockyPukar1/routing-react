@@ -1,49 +1,42 @@
 import { useState } from "react";
 
-const faqs = [
-  {
-    question: "How many bones does a cat have?",
-    answer: "A cat has 230 bones - 6 more than a human",
-  },
-  {
-    question: "How much do cats sleep?",
-    answer: "The average cat sleeps 12-16 hours per day",
-  },
-  {
-    question: "How long do cats live",
-    answer:
-      "Outdoor cats live 5 years on average. Indoor\ncats live 15 years on average.",
-  },
-];
-
 function App() {
-  const [showIndex, setShowIndex] = useState(0);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+
   return (
-    <div className="flex justify-center items-center">
-      <div className="flex-col w-72 text-xs">
-        {faqs.map((faq, index) => (
-          <div className="border border-1 my-2 p-2">
-            <p className="font-semibold flex gap-1 items-center">
-              <img
-                onClick={() => {
-                  if (index === showIndex) {
-                    setShowIndex("");
-                  } else {
-                    setShowIndex(index);
-                  }
-                }}
-                className={`w-5 h-2 ${index === showIndex && "rotate-90"}`}
-                src="/src/assets/chevron.svg"
-                alt="Chevron"
-              />
-              {faq.question}
-            </p>
-            {index === showIndex && (
-              <p className="font-normal ml-6">{faq.answer}</p>
-            )}
-          </div>
-        ))}
-      </div>
+    <div className="flex justify-center">
+      <form
+        className="w-72 flex flex-col gap-2"
+        onSubmit={(event) => {
+          event.preventDefault();
+          console.log(name, email);
+        }}
+      >
+        <div>
+          Name{" "}
+          <input
+            type="text"
+            className="outline border-0"
+            value={name}
+            placeholder="John Doe"
+            onChange={(event) => setName(event.target.value)}
+          />
+        </div>
+        <div>
+          Name{" "}
+          <input
+            type="email"
+            className="outline border-0"
+            value={email}
+            placeholder="john.doe@gmail.com"
+            onChange={(event) => setEmail(event.target.value)}
+          />
+        </div>
+        <button className="border border-black p-2">Submit</button>
+        <div>My Name: {name}</div>
+        <div>My Email: {email}</div>
+      </form>
     </div>
   );
 }
