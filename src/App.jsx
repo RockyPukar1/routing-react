@@ -22,7 +22,7 @@ function App() {
     <div className="flex justify-center items-center">
       <div className="flex-col w-72 text-xs">
         {faqs.map((faq, index) => (
-          <div className="bg-gray-300 my-2 p-2">
+          <div className="border border-1 my-2 p-2">
             <p className="font-semibold flex gap-1 items-center">
               <img
                 onClick={() => {
