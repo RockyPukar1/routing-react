@@ -1,26 +1,35 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function App() {
   const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    function getAllUsers() {
-      fetch("https://dummyjson.com/users")
-        .then((res) => res.json())
-        .then((data) => setUsers(data?.users));
-    }
-
-    getAllUsers();
-  }, []);
+  function getAllUsers() {
+    setIsLoading(true);
+    fetch("https://dummyjson.com/users")
+      .then((res) => res.json())
+      .then((data) => {
+        setUsers(data?.users);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1000);
+      });
+  }
 
   console.log(users);
 
-  if (users.length == 0) {
+  if (isLoading) {
     return "Loading";
   }
 
   return (
     <div>
+      <button className="bg-black text-white" onClick={() => setUsers([])}>
+        Remove Data
+      </button>
+      <button className="bg-red-500 text-blue" onClick={() => getAllUsers()}>
+        Fetch Data
+      </button>
       {users.map((user) => (
         <div key={user.id}>
           <div>
