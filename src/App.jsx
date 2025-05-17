@@ -1,80 +1,91 @@
 import { useState } from "react";
 
-const faqs = [
+const datas = [
   {
-    question: "How many bones does a cat have?",
-    answer: "A cat has 230 bones - 6 more than a human",
+    id: 1,
+    name: "Pukar Chhatkuli",
+    gender: "Male",
   },
   {
-    question: "How much do cats sleep?",
-    answer: "The average cat sleeps 12-16 hours per day",
+    id: 2,
+    name: "Sourish Joshi",
+    gender: "Male",
   },
   {
-    question: "How long do cats live",
-    answer:
-      "Outdoor cats live 5 years on average. Indoor\ncats live 15 years on average.",
-  },
-  {
-    question: "How long do cats live",
-    answer:
-      "Outdoor cats live 5 years on average. Indoor\ncats live 15 years on average.",
-  },
-  {
-    question: "How long do cats live",
-    answer:
-      "Outdoor cats live 5 years on average. Indoor\ncats live 15 years on average.",
-  },
-  {
-    question: "How long do cats live",
-    answer:
-      "Outdoor cats live 5 years on average. Indoor\ncats live 15 years on average.",
-  },
-  {
-    question: "How long do cats live",
-    answer:
-      "Outdoor cats live 5 years on average. Indoor\ncats live 15 years on average.",
-  },
-  {
-    question: "How long do cats live",
-    answer:
-      "Outdoor cats live 5 years on average. Indoor\ncats live 15 years on average.",
+    id: 3,
+    name: "Siddharth G.C.",
+    gender: "Male",
   },
 ];
 
-function App() {
-  const [showIndexes, setShowIndexes] = useState([]);
-  console.log(showIndexes);
+export default function App() {
+  const [persons, setPersons] = useState(datas);
+  const [selected, setSelected] = useState([]);
+
+  const allChecked = !persons.length
+    ? false
+    : persons.map((person) => person.id).every((id) => selected.includes(id));
+  console.log(selected, allChecked);
   return (
-    <div className="flex justify-center items-center">
-      <div className="flex-col w-72 text-xs">
-        {faqs.map((faq, index) => (
-          <div className="border border-1 my-2 p-2" key={index}>
-            <p className="font-semibold flex gap-1 items-center">
-              Index: {index}
-              <img
-                onClick={() => {
-                  if (showIndexes.includes(index)) {
-                    setShowIndexes((prev) => prev.filter((i) => i !== index));
-                  } else {
-                    setShowIndexes((prev) => [...prev, index]);
+    <div>
+      <table className="min-w-full border">
+        <thead>
+          <tr>
+            <th className="border px-4 py-2">
+              <input
+                type="checkbox"
+                checked={allChecked}
+                onChange={() => {
+                  if (persons) {
+                    if (allChecked) {
+                      setSelected([]);
+                    } else {
+                      setSelected(persons.map((person) => person.id));
+                    }
                   }
                 }}
-                className={`w-5 h-2 ${
-                  showIndexes.includes(index) && "rotate-90"
-                }`}
-                src="/src/assets/chevron.svg"
-                alt="Chevron"
               />
-              {faq.question}
-            </p>
-            {showIndexes.includes(index) && (
-              <p className="font-normal ml-6">{faq.answer}</p>
-            )}
-          </div>
-        ))}
-      </div>
+            </th>
+            <th className="border px-4 py-2">SN</th>
+            <th className="border px-4 py-2">Name</th>
+            <th className="border px-4 py-2">Gender</th>
+          </tr>
+        </thead>
+        <tbody>
+          {persons.map((person) => (
+            <tr key={person.id}>
+              <td className="border px-4 py-2">
+                <input
+                  type="checkbox"
+                  checked={selected.includes(person.id)}
+                  onChange={() => {
+                    if (selected.includes(person.id)) {
+                      setSelected((prev) =>
+                        prev.filter((id) => id !== person.id)
+                      );
+                    } else {
+                      setSelected((prev) => [...prev, person.id]);
+                    }
+                  }}
+                />
+              </td>
+              <td className="border px-4 py-2">{person.id}</td>
+              <td className="border px-4 py-2">{person.name}</td>
+              <td className="border px-4 py-2">{person.gender}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <button
+        className="bg-red-600 p-4 absolute left-1/2 -translate-x-1/2 bottom-0"
+        onClick={() => {
+          setPersons((prev) =>
+            prev.filter((person) => !selected.includes(person.id))
+          );
+        }}
+      >
+        Delete
+      </button>
     </div>
   );
 }
-
-export default App;
