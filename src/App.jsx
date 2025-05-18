@@ -1,19 +1,30 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const datas = [
   {
     id: 1,
-    name: "Pukar Chhatkuli",
+    name: "Person 1",
     gender: "Male",
   },
   {
     id: 2,
-    name: "Sourish Joshi",
-    gender: "Male",
+    name: "Person 2",
+    gender: "Female",
   },
   {
     id: 3,
-    name: "Siddharth G.C.",
+    name: "Person 3",
+    gender: "Male",
+  },
+  {
+    id: 4,
+    name: "Person 4",
+    gender: "Female",
+  },
+  {
+    id: 5,
+    name: "Person 5",
     gender: "Male",
   },
 ];
@@ -21,11 +32,12 @@ const datas = [
 export default function App() {
   const [persons, setPersons] = useState(datas);
   const [selected, setSelected] = useState([]);
+  const [selectedGender, setSelectedGender] = useState("Male");
 
   const allChecked = !persons.length
     ? false
     : persons.map((person) => person.id).every((id) => selected.includes(id));
-  console.log(selected, allChecked);
+  console.log(selected, allChecked, selectedGender);
   return (
     <div>
       <table className="min-w-full border">
@@ -76,16 +88,50 @@ export default function App() {
           ))}
         </tbody>
       </table>
-      <button
-        className="bg-red-600 p-4 absolute left-1/2 -translate-x-1/2 bottom-0"
-        onClick={() => {
-          setPersons((prev) =>
-            prev.filter((person) => !selected.includes(person.id))
-          );
-        }}
-      >
-        Delete
-      </button>
+      {selected.length > 0 && (
+        <div className="absolute left-1/2 -translate-x-1/2 bottom-0 flex justify-center gap-40 w-screen">
+          <button
+            className="bg-red-600 p-4 "
+            onClick={() => {
+              setPersons((prev) =>
+                prev.filter((person) => !selected.includes(person.id))
+              );
+              toast.success("Selected persons deleted successfully");
+            }}
+          >
+            Delete
+          </button>
+          <div className="flex gap-5">
+            <select
+              defaultValue={selectedGender}
+              onChange={(e) => setSelectedGender(e.target.value)}
+            >
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+            <button
+              className="p-4 bg-black text-white"
+              onClick={() => {
+                setPersons((prev) =>
+                  prev.map((person) => {
+                    if (selected.includes(person.id)) {
+                      return {
+                        ...person,
+                        gender: selectedGender,
+                      };
+                    } else {
+                      return person;
+                    }
+                  })
+                );
+                toast.success("Selected persons's gender updated successfully");
+              }}
+            >
+              Update
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
